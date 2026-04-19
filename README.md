@@ -13,16 +13,12 @@ From the exploratory data analysis, I learned that:
 - Fraud only occurs in `TRANSFER` and `CASH_OUT` transactions.
 - Fraudulent transactions often drain the origin account balance to zero.
 
-![Fraud Rate by Transaction Type](images/fraud_rate_by_type.png)
-
 ## ii. How did you determine which columns to drop or keep? If your EDA informed this process, explain which insights you used to determine which columns were not needed.
 EDA informed the column selection:
 - Dropped `nameOrig` and `nameDest` because they are high-cardinality account IDs that don't generalize to new transactions.
 - Dropped `isFlaggedFraud` because it's too close to the target and could leak information.
 - Kept and one-hot encoded `type` since fraud only happens in `TRANSFER` and `CASH_OUT`.
 - Created new features like `balance_change`, `dest_balance_change`, and `origin_zero` based on balance patterns in fraud.
-
-![Feature Importance](images/feature_importance.png)
 
 ## iii. Which hyperparameter tuning strategy did you use? Grid-search or random-search? Why?
 I used RandomizedSearchCV instead of GridSearchCV.
@@ -33,8 +29,6 @@ I used RandomizedSearchCV instead of GridSearchCV.
 The baseline model had an F1 score of 0.8916.
 - After tuning, the F1 score improved slightly to 0.8837, with better recall (0.83 vs. 0.80) but slightly lower precision (0.95 vs. 1.00).
 - This trade-off means the tuned model catches more fraud but has a few more false alarms.
-
-![Model Comparison](images/model_comparison.png)
 
 ## v. What was your final F1 Score?
 The final F1 score on the test set was 0.8837 for the fraud class.
